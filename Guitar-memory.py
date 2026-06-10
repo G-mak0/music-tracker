@@ -15,13 +15,13 @@ def Show_records():
 
 
 while True:
-    What_need = input("Do you wanna add more data? (y/n/e/d): ")
+    What_need = input("Do you wanna add more data? (y/n/c/d): ")
     if What_need.lower() == 'exit':
         print("exit")
         break
 
     elif What_need.lower() == "y":
-        Your_practice_time = input("Enter your time: ")
+        Your_practice_time = input("Enter your guitar time: ")
         Your_practice_song = input("Enter your song: ")
         Your_discover = input("Enter your discover: ")
         now = datetime.now().strftime("%Y-%m-%d")
@@ -37,14 +37,14 @@ while True:
                 if new_guitar:
                     writer.writerow(header)
                 new_guitar = False
-                writer.writerow([what_time, Your_practice_time, Your_practice_song,
+                writer.writerow([What_time, Your_practice_time, Your_practice_song,
                                 Your_discover])
                 print("Data saved to Guitar.csv")
 
     elif What_need.lower() == 'n':
         Show_records()
 
-    elif What_need.lower() == 'e':
+    elif What_need.lower() == 'c':
         Show_records()
         with open("Guitar.csv", 'r', newline='', encoding='utf-8') as file:
             csv_reader = csv.reader(file)
@@ -69,18 +69,18 @@ while True:
         print("Done")
     elif What_need.lower() == 'd':
         Show_records()
-    with open("Guitar.csv", 'r', newline='', encoding='utf-8') as file:
-        csv_reader = csv.reader(file)
-        all_rows = list(csv_reader)
-        Delete = int(input("What line do you wanna delete? : "))
-        try:
-            if Delete < 0 or Delete >= len(all_rows):
+        with open("Guitar.csv", 'r', newline='', encoding='utf-8') as file:
+            csv_reader = csv.reader(file)
+            all_rows = list(csv_reader)
+            Delete = int(input("What line do you wanna delete? : "))
+            try:
+                if Delete < 0 or Delete >= len(all_rows):
+                    print("Please enter a valid number")
+            except:
                 print("Please enter a valid number")
-        except:
-            print("Please enter a valid number")
-        del all_rows[Delete]
-        with open("Guitar.csv", 'w', newline='', encoding='utf-8') as file:
-            writer = csv.writer(
-                file, quoting=csv.QUOTE_NONE, escapechar='\\')
-            writer.writerows(all_rows)
-        print("Done")
+            del all_rows[Delete]
+            with open("Guitar.csv", 'w', newline='', encoding='utf-8') as file:
+                writer = csv.writer(
+                    file, quoting=csv.QUOTE_NONE, escapechar='\\')
+                writer.writerows(all_rows)
+            print("Done")
