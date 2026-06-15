@@ -9,7 +9,7 @@ new_guitar = not os.path.exists(Guitar_file)
 
 def Show_records():
     with open("Guitar.csv", 'r', newline='', encoding='utf-8') as file:
-        reader = csv.reader(file)
+        reader = csv.reader(file, quoting=csv.QUOTE_ALL, escapechar="\\")
         for index, row in enumerate(reader, start=0):
             print(f"{index}: {row}")
 
@@ -19,7 +19,6 @@ while True:
     if What_need.lower() == 'exit':
         print("exit")
         break
-
     elif What_need.lower() == "y":
         Your_practice_time = input("Enter your guitar time: ")
         Your_practice_song = input("Enter your song: ")
@@ -27,19 +26,19 @@ while True:
         now = datetime.now().strftime("%Y-%m-%d")
         What_time = input("Please enter a valid time: ")
         if What_time == "":
-            what_time = now
+            What_time = now
         else:
-            what_time = What_time
+            What_time = What_time
 
-            with open(Guitar_file, 'a', encoding='utf-8', newline='') as file:
-                writer = csv.writer(
-                    file, quoting=csv.QUOTE_MINIMAL, escapechar="\\")
-                if new_guitar:
-                    writer.writerow(header)
-                new_guitar = False
-                writer.writerow([What_time, Your_practice_time, Your_practice_song,
-                                Your_discover])
-                print("Data saved to Guitar.csv")
+        with open(Guitar_file, 'a', encoding='utf-8', newline='') as file:
+            writer = csv.writer(
+                file, quoting=csv.QUOTE_ALL)
+            if new_guitar:
+                writer.writerow(header)
+            new_guitar = False
+            writer.writerow([What_time, Your_practice_time, Your_practice_song,
+                            Your_discover])
+            print("Data saved to Guitar.csv")
 
     elif What_need.lower() == 'n':
         Show_records()
@@ -47,7 +46,8 @@ while True:
     elif What_need.lower() == 'c':
         Show_records()
         with open("Guitar.csv", 'r', newline='', encoding='utf-8') as file:
-            csv_reader = csv.reader(file)
+            csv_reader = csv.reader(
+                file, quoting=csv.QUOTE_ALL)
             all_rows = list(csv_reader)
         Change = int(input(
             "What line do you want to change? (Enter the line number): "))
@@ -64,13 +64,14 @@ while True:
         index = Change_what
         all_rows[Change][index] = new_value
         with open("Guitar.csv", 'w', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file, quoting=csv.QUOTE_NONE, escapechar="\\")
+            writer = csv.writer(file, quoting=csv.QUOTE_ALL)
             writer.writerows(all_rows)
         print("Done")
     elif What_need.lower() == 'd':
         Show_records()
         with open("Guitar.csv", 'r', newline='', encoding='utf-8') as file:
-            csv_reader = csv.reader(file)
+            csv_reader = csv.reader(
+                file, quoting=csv.QUOTE_ALL)
             all_rows = list(csv_reader)
             Delete = int(input("What line do you wanna delete? : "))
             try:
@@ -81,6 +82,6 @@ while True:
             del all_rows[Delete]
             with open("Guitar.csv", 'w', newline='', encoding='utf-8') as file:
                 writer = csv.writer(
-                    file, quoting=csv.QUOTE_NONE, escapechar='\\')
+                    file, quoting=csv.QUOTE_ALL)
                 writer.writerows(all_rows)
             print("Done")
